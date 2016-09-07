@@ -24,3 +24,7 @@ payload.exe
 pnacl/
 resources.pak
 snapshot_blob.bin
+.DS_Store
+chromedriver
+minidump_stackwalk
+payload
