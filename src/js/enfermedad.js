@@ -1,17 +1,36 @@
 "use strict";
 var EventEmitter = require('events');
-var inherits = require('util').inherits;
 
-function Enfermedad(nombre, tipoPoblacion, sintomas, transmision, habilidades, afeccion){
+class Enfermedad extends EventEmitter {
 
-	this.nombre 		= nombre;
-	this.tipoPoblacion 	= tipoPoblacion;
-	this.sintomas 		= sintomas;
-	this.transmision 	= transmision;
-	this.habilidades 	= habilidades;
-	this.afeccion 		= afeccion;
+	constructor(nombre) {
+		super();
+		this._nombre 		= nombre;
+		this._tipoPoblacion = [];
+		this._sintomas 		= [];
+		this._transmision 	= [];
+		this._habilidades 	= [];
+		this._afeccion 		= [];
+	}
 
-	EventEmitter.call(this);
+	get nombre(){
+		return this._nombre;
+	}
+	get tipoPoblacion(){
+		return this._tipoPoblacion;
+	}
+	get sintomas(){
+		return this._sintomas;
+	}
+	get transmision(){
+		return this._transmision;
+	}
+	get habilidades(){
+		return this._habilidades;
+	}
+	get afeccion(){
+		return this._afeccion;
+	}
 
 }
 
