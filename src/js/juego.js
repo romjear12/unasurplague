@@ -64,9 +64,24 @@ var Pais = require('../js/pais.js');
 		  map = new jvm.Map({
 		    map: 'south_america_mill',
 		    container: $('#map'),
+		    backgroundColor: "#FFF",
 		    series: {
 		      regions: [{
-		        attribute: 'fill'
+		        attribute: 'fill',
+		        values: {
+			        PY:'#A8BFA6',
+			        CO:'#A8BFA6',
+			        VE:'#A8BFA6',
+			        CL:'#A8BFA6',
+			        SR:'#A8BFA6',
+			        BO:'#A8BFA6',
+			        EC:'#A8BFA6',
+			        AR:'#A8BFA6',
+			        GY:'#A8BFA6',
+			        BR:'#A8BFA6',
+			        PE:'#A8BFA6',
+			        UY:'#A8BFA6',
+			    }
 		      }]
 		    },
 		    onRegionClick: function(event, code) {

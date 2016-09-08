@@ -34,3 +34,10 @@ input{
 	text-decoration: none;
 	padding: 0.5em 1em;
 }
+
+#tablero{
+	position: absolute;
+	bottom: 0;
+	display: block;
+	color: #0D4007;
+}
