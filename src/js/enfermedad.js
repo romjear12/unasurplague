@@ -1,10 +1,10 @@
 "use strict";
-var EventEmitter = require('events');
+// var EventEmitter = require('events');
 
-class Enfermedad extends EventEmitter {
+class Enfermedad {
 
-	constructor(nombre) {
-		super();
+	constructor(nombre, emitter) {
+		// super();
 		this._nombre 		= nombre;
 		this._tasaTransmision = 0.01;
 		this._tipoPoblacion = [];
@@ -12,6 +12,7 @@ class Enfermedad extends EventEmitter {
 		this._transmision 	= [];
 		this._habilidades 	= [];
 		this._afeccion 		= [];
+		this._emitter = emitter;
 	}
 
 	get tasaTransmision() {

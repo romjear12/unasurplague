@@ -23,6 +23,13 @@
 		<label for=""¨>Muertos: </label>
 	</div>
 	<script src = "../js/juego.js">	
+		var Pais = require('../js/pais.js');
+		var Enfermedad = require('../js/enfermedad.js');
+
+		var enfermedad = new Enfermedad('nombre');
+		var ve = new Pais('VE',40,2,30000000);
+
+		ve.contagiarPais(enfermedad);
 	</script>
 </body>
 </html>

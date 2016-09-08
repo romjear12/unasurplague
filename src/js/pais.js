@@ -1,20 +1,19 @@
 "use strict";
-var EventEmitter = require('events');
-// var inherits = require('util').inherits;
-// 
 
-class Pais extends EventEmitter {
+class Pais{
 
-	constructor(code, indiceDesarrollo, tipoPoblacion, poblacionTotal, poblacionSana, poblacionInfectada, poblacionMuerta){
-		super();
+	constructor(code, indiceDesarrollo, tipoPoblacion, poblacionTotal, emitter){
+		// super();
 		this._code = code;
 		this._indiceDesarrollo = indiceDesarrollo;
 		this._tipoPoblacion 		= tipoPoblacion;
 		this._poblacionTotal 	= poblacionTotal;
-		this._poblacionSana 		= poblacionSana;
-		this._poblacionInfectada = poblacionInfectada;
-		this._poblacionMuerta 	= poblacionMuerta;
+		this._poblacionSana 		= this._poblacionTotal;
+		this._poblacionInfectada = 0;
+		this._poblacionMuerta 	= 0;
 		this._tasaTransmision = 0;
+		this._emitter = emitter;
+		this._enfermedad = {};
 	}
 
 	get code() {
@@ -61,12 +60,19 @@ class Pais extends EventEmitter {
 	 * @param  {Enfermedad} enfermedad
 	 * @return {[type]}            [description]
 	 */
-	empezarJuego(enfermedad) {
+	contagiarPais(enfermedad) {
 
 		this._poblacionInfectada = 1;
-		this._tasaTransmision = 0.01;
-		return Enfermedad.nombre;
+		this._tasaTransmision = this.calcularTasaContagio();
+		this._enfermedad = enfermedad;
 
+		this._emitter.contagiado({code: this._code});
+		return ;
+
+	}
+
+	calcularTasaContagio() {
+		return (this._poblacionInfectada / this._poblacionTotal) * 10000;
 	}
 
 }

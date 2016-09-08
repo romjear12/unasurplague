@@ -22,5 +22,20 @@
 			<a id="action" href="juego.html">Jugar</a>
 		</div>
 	</div>
+	<script>
+		var Pais = require('../js/pais.js');
+		var Enfermedad = require('../js/enfermedad.js');
+		var MyEmitter = require('../js/MyEmitter.js');
+		var Emitter = new MyEmitter();
+
+		var enfermedad = new Enfermedad('nombre', Emitter);
+		var ve = new Pais('VE',40,2,30000000, Emitter);
+
+		enfermedad._emitter.on('contagiado', (pais) => {
+			console.log(`${pais.code} se contagió`);
+		});
+
+		// ve.contagiarPais(enfermedad);
+	</script>
 </body>
 </html>
