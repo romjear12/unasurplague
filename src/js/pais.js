@@ -52,6 +52,23 @@ class Pais extends EventEmitter {
 		this._tasaTransmision = tasa;
 	}
 
+	// set poblacionInfectada(cantidad) {
+	// 	this._poblacionInfectada = cantidad;
+	// }
+
+	/**
+	 * Empieza a contagiarse la enfermedad en este país
+	 * @param  {Enfermedad} enfermedad
+	 * @return {[type]}            [description]
+	 */
+	empezarJuego(enfermedad) {
+
+		this._poblacionInfectada = 1;
+		this._tasaTransmision = 0.01;
+		return Enfermedad.nombre;
+
+	}
+
 }
 
 module.exports = Pais;
