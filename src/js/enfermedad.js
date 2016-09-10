@@ -7,10 +7,14 @@ class Enfermedad {
 		// super();
 		this._nombre 		= nombre;
 		this._tasaTransmision = 0.01;
+		// rural | urbano
 		this._tipoPoblacion = [];
 		this._sintomas 		= [];
+		// arido | humedo 
 		this._transmision 	= [];
+		// calido | frio
 		this._habilidades 	= [];
+
 		this._afeccion 		= [];
 		this._emitter = emitter;
 		this._paises = paises;
@@ -41,10 +45,23 @@ class Enfermedad {
 		this._tasaTransmision = tasa;
 	}
 
+	agregarTipoPoblacion(tipoPoblacion) {
+		this._tipoPoblacion.push(tipoPoblacion);
+		return;
+	}
+	agregarHabilidad(habilidad) {
+		this._habilidades.push(habilidad);
+		return;
+	}
+	agregarTransmision(transmision) {
+		this._transmision.push(transmision);
+		return;
+	}
+
 	revisarTasaTransmision() {
 
-		
-		
+
+
 		// let tasa =  (totalContagiados / totalPoblacion);
 		// this._tasaTransmision =  this._tasaTransmision + tasa;
 		// return this._tasaTransmision;
