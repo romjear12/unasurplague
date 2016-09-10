@@ -3,33 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Unasurplague</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../../modules/jvectormap/jquery-jvectormap.css">
 	<link rel="stylesheet" href="../css/styles.css">
+	
+</head>
+<body>
+	<header class="text-center">
+		<a class="indicators" href="#">Sintomas</a>
+		<a class="indicators" href="#">Habilidades</a>
+		<a class="indicators" href="#">Transmisión</a>
+	</header>
+	<div id="map" style="width:500px; height:400px; margin: 0 auto;">
+	</div>
+	<div id="select">
+		<strong>América del Sur</strong>
+	</div>
+	<div id="tablero">
+		<p class="indicators"><strong>Puntos ADN-> <span>0</span></strong></p>
+		<p class="indicators"><strong>Población infectada-> <span>0</span></strong></p>
+		<p class="indicators"><strong>Muertos-> <span>0</span></strong></p>
+		<p class="indicators"><strong>Progreso Cura-> <span>0</span></strong></p>
+	</div>
 	<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
 	<script src="../../modules/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
 	<script src="../../modules/jvectormap/jquery-jvectormap-south_america-mill.js"></script>
-</head>
-<body>
-	<div id="map" style="width:500px; height:400px; margin: 0 auto;">
-	</div>
-	<div id="tablero">
-		<div>
-		<label for=""¨>Puntos ADN: </label>
-		</div>
-		<div>
-			
-		</div>
-		<label for=""¨>Población infectada: </label>
-		<label for=""¨>Muertos: </label>
-	</div>
-	<script src = "../js/juego.js">	
-		var Pais = require('../js/pais.js');
-		var Enfermedad = require('../js/enfermedad.js');
-
-		var enfermedad = new Enfermedad('nombre');
-		var ve = new Pais('VE',40,2,30000000);
-
-		ve.contagiarPais(enfermedad);
-	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../js/juego.js"></script>
 </body>
 </html>

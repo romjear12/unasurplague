@@ -7,7 +7,15 @@ body{
 .text-center{
 	text-align: center;
 }
-
+a{
+	text-decoration: none;
+	font-weight: bold;
+	background-color: #444;
+	color: whitesmoke;
+}
+a:hover{
+	color: white;	
+}
 h1{
 	color: #0D4007;
 }
@@ -25,7 +33,11 @@ input{
 .margin-top{
 	margin-top: 2em;
 }
-
+.indicators{
+	padding: 1em;
+	display: inline-block;
+	border: 2px solid #ccc;
+}
 #action{
 	font-size: 2em;
 	background-color: #1A7F0E;
@@ -40,4 +52,10 @@ input{
 	bottom: 0;
 	display: block;
 	color: #0D4007;
+	width: 100%;
+	height: 20%;
+	text-align: center;
+}
+#select{
+	text-align: center;
 }

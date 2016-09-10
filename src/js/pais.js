@@ -101,13 +101,13 @@ class Pais{
 	 */
 	calcularTasaContagio() {
 		let infectadosDt = this.calcularPoblacionInfectadaDt();
-		// console.log('tasa calcularTasaContagio() '+ tasa);
+		//console.log('tasa calcularTasaContagio() ');
 
 		this._tasaTransmision = this._tasaTransmision + infectadosDt;
-		// console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
+		//console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
 
 		this._poblacionInfectada = this._poblacionInfectada + Math.floor(this._tasaTransmision);
-		// console.log('_poblacionInfectada calcularTasaContagio() '+ tasa);
+		//console.log('_poblacionInfectada calcularTasaContagio() '+ tasa);
 
 		// this._enfermedad.revisarTasaTransmision();
 

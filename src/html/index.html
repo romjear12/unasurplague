@@ -5,9 +5,6 @@
 	<title>Unasurplague</title>
 	<link rel="stylesheet" href="../../modules/jvectormap/jquery-jvectormap.css">
 	<link rel="stylesheet" href="../css/styles.css">
-	<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="../../modules/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
-	<script src="../../modules/jvectormap/jquery-jvectormap-south_america-mill.js"></script>
 </head>
 <body>
 	<div>
@@ -22,23 +19,8 @@
 			<a id="action" href="juego.html">Jugar</a>
 		</div>
 	</div>
-	<script>
-		var Pais = require('../js/pais.js');
-		var Enfermedad = require('../js/enfermedad.js');
-		var MyEmitter = require('../js/MyEmitter.js');
-		var Emitter = new MyEmitter();
-		var Creacion = require('../js/creacionPaises.js');
-
-		var enfermedad = new Enfermedad('nombre', Emitter);
-		// var ve = new Pais('VE',2,2,30000000, Emitter);
-		
-		var paises = Creacion(enfermedad, Emitter);
-
-		enfermedad._emitter.on('contagiado', (pais) => {
-			console.log(`${pais.code} se contagió`);
-		});
-
-		// ve.contagiarPais(enfermedad);
-	</script>
+	<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="../../modules/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+	<script src="../../modules/jvectormap/jquery-jvectormap-south_america-mill.js"></script>
 </body>
 </html>

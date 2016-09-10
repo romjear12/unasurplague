@@ -1,14 +1,18 @@
 var Pais = require('../js/pais.js');
-	var EventEmitter = require('events');
-	var inherits = require('util').inherits;
+var Enfermedad = require('../js/enfermedad.js');
+var MyEmitter = require('../js/MyEmitter.js');
+var creacion = require('../js/creacionPaises.js');
+var Emitter = new MyEmitter();
 
-	var venezuela = new Pais(1,2,3,4,5,6);
+var enfermedad = new Enfermedad('nombre', Emitter);
 
-	var countries = {
-		VE: {
-			color: 'F66'
-		}
-	}
+	enfermedad._emitter.on('contagiado', (pais) => {
+		console.log(`${pais.code} se contagió`);
+	});
+
+	var paises = creacion(enfermedad, Emitter);
+	var paisesContagiados = [];
+
 	var ColorLuminance = function (hex, lum) {
 
 			// validate hex string
@@ -29,46 +33,44 @@ var Pais = require('../js/pais.js');
 			return rgb;
 		}
 
-	var increasingRed = function() {
+	var increasingRed = function(pais) {
 
 
-		color = countries['VE']['color'];
+		color = pais['color'];
 		// console.log(color);
 		colorIncreased = ColorLuminance(color, -.01);
 		// console.log(colorIncreased);
 
- 		countries['VE']['color'] = colorIncreased;
-
-		map.series.regions[0].setValues({VE: colorIncreased});
+ 		pais['color'] = colorIncreased;
+ 		var obj = {};
+ 		obj[pais._code] = colorIncreased;
+		map.series.regions[0].setValues(obj);
 
 		// console.log('exec');
 
 	}
 
-	var exec = function() {
-		setInterval(increasingRed, 100);
-	}
 	$( function(){
 		// $('#map').vectorMap({map: 'south_america_mill'});
 		// $('#map').vectorMap('set', 'colors', {ve: '#0000ff'});
 		
 		$(function(){
-		  var palette = ['#66C2A5', '#FC8D62', '#8DA0CB', '#E78AC3', '#A6D854'];
+			var palette = ['#66C2A5', '#FC8D62', '#8DA0CB', '#E78AC3', '#A6D854'];
 
-	      generateColors = function(key){
-	        var colors = {};
-			colors[key] = palette[Math.floor(Math.random()*palette.length)];
-	        return colors;
-	      };
+			generateColors = function(key){
+				var colors = {};
+				colors[key] = palette[0];
+				return colors;
+			};
 
-		  map = new jvm.Map({
-		    map: 'south_america_mill',
-		    container: $('#map'),
-		    backgroundColor: "#FFF",
-		    series: {
-		      regions: [{
-		        attribute: 'fill',
-		        values: {
+			map = new jvm.Map({
+				map: 'south_america_mill',
+				container: $('#map'),
+				backgroundColor: "#FFF",
+				series: {
+			  regions: [{
+			    attribute: 'fill',
+			    values: {
 			        PY:'#A8BFA6',
 			        CO:'#A8BFA6',
 			        VE:'#A8BFA6',
@@ -82,14 +84,26 @@ var Pais = require('../js/pais.js');
 			        PE:'#A8BFA6',
 			        UY:'#A8BFA6',
 			    }
-		      }]
-		    },
-		    onRegionClick: function(event, code) {
-		    	console.log(code);
-		    	obj = generateColors(code);
-		    	map.series.regions[0].setValues(obj);
-		    }
-		  });
+			  }]
+				},
+				onRegionClick: function(event, code) {
+					var pais = paises.find( (pais) => code === pais._code );
+					pais.color = '#f66';
+					var obj = {};
+ 					obj[pais._code] = pais.color;
+					map.series.regions[0].setValues(obj);
+					paisesContagiados.push(pais);
+					pais.contagiarPais(enfermedad);
+				}
+			});
+
+			/*setInterval(() =>{
+		  		if(paisesContagiados.length > 0)
+					paisesContagiados.map( (pais) => {
+						pais.calcularTasaContagio();
+						increasingRed(pais);
+					});
+			}, 2000);*/
 
 		  
 		})
