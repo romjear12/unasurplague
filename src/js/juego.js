@@ -4,8 +4,9 @@ var MyEmitter = require('../js/MyEmitter.js');
 var creacion = require('../js/creacionPaises.js');
 var Emitter = new MyEmitter();
 
-var enfermedad = new Enfermedad('nombre', Emitter);
-
+	var poblacionInfectada = 0;
+	var poblacionMuerta = 0;
+	var enfermedad = new Enfermedad('nombre', Emitter);
 	enfermedad._emitter.on('contagiado', (pais) => {
 		alert(`${pais.code} se contagió`);
 	});
@@ -106,10 +107,9 @@ var enfermedad = new Enfermedad('nombre', Emitter);
 						pais.calcularTasaContagio();
 						pais.infectarPaisVecino(paises, paisesContagiados);
 						increasingRed(pais);
-
 						actualizarData(pais);
 					});
-			}, 500);
+			}, 200);
 		  
 		})
 	})
