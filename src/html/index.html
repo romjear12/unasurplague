@@ -29,7 +29,7 @@
 		var Emitter = new MyEmitter();
 
 		var enfermedad = new Enfermedad('nombre', Emitter);
-		var ve = new Pais('VE',40,2,30000000, Emitter);
+		var ve = new Pais('VE',2,2,30000000, Emitter);
 
 		enfermedad._emitter.on('contagiado', (pais) => {
 			console.log(`${pais.code} se contagió`);
