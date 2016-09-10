@@ -27,9 +27,12 @@
 		var Enfermedad = require('../js/enfermedad.js');
 		var MyEmitter = require('../js/MyEmitter.js');
 		var Emitter = new MyEmitter();
+		var Creacion = require('../js/creacionPaises.js');
 
 		var enfermedad = new Enfermedad('nombre', Emitter);
-		var ve = new Pais('VE',2,2,30000000, Emitter);
+		// var ve = new Pais('VE',2,2,30000000, Emitter);
+		
+		var paises = Creacion(enfermedad, Emitter);
 
 		enfermedad._emitter.on('contagiado', (pais) => {
 			console.log(`${pais.code} se contagió`);
