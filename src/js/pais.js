@@ -131,13 +131,19 @@ class Pais{
 	calcularTasaContagio() {
 		let infectadosDt = this.calcularPoblacionInfectadaDt();
 		//console.log('tasa calcularTasaContagio() ');
+		
+		// Verifico que no sigan infectandose mas personas que las que hay
+		// en total
+		if ((this.poblacionInfectada + infectadosDt) < this._poblacionTotal ) {
+			this._tasaTransmision = this._tasaTransmision + infectadosDt;
+			//console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
 
-		this._tasaTransmision = this._tasaTransmision + infectadosDt;
-		//console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
-
-		this._poblacionInfectada += Math.floor(this._tasaTransmision);
-		this._poblacionSana -= Math.floor(this._tasaTransmision);
-
+			this._poblacionInfectada += Math.floor(this._tasaTransmision);
+			this._poblacionSana -= Math.floor(this._tasaTransmision);
+		} else {
+			// Hago que la poblacion infectada sea toda la poblacion de pais
+			this._poblacionInfectada = this._poblacionTotal;
+		}
 
 		// this._enfermedad.revisarTasaTransmision();
 

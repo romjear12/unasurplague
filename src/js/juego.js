@@ -97,13 +97,14 @@ var enfermedad = new Enfermedad('nombre', Emitter);
 				}
 			});
 
-			/*setInterval(() =>{
+			setInterval(() =>{
 		  		if(paisesContagiados.length > 0)
 					paisesContagiados.map( (pais) => {
 						pais.calcularTasaContagio();
 						increasingRed(pais);
+						pais.infectarPaisVecino(paises, paisesContagiados);
 					});
-			}, 2000);*/
+			}, 1000);
 
 		  
 		})
