@@ -30,6 +30,11 @@ input{
 	font-size: 25px;
 	text-align: center;
 }
+
+table tbody tr td{
+	font-size: 12px;
+	color: gray;
+}
 .margin-top{
 	margin-top: 2em;
 }
@@ -48,7 +53,6 @@ input{
 }
 
 #tablero{
-	position: absolute;
 	bottom: 0;
 	display: block;
 	color: #0D4007;

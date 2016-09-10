@@ -7,10 +7,16 @@ var Emitter = new MyEmitter();
 var enfermedad = new Enfermedad('nombre', Emitter);
 
 	enfermedad._emitter.on('contagiado', (pais) => {
-		console.log(`${pais.code} se contagió`);
+		alert(`${pais.code} se contagió`);
 	});
 
 	var paises = creacion(enfermedad, Emitter);
+
+	//cargar tabla default
+	paises.map( (pais) => {
+		$('#data tbody').append('<tr id='+pais._code+'><td>'+pais._code+'</td><td>'+pais._poblacionTotal+'</td><td>'+pais._poblacionSana+'</td><td>'+pais._poblacionInfectada+'</td></tr>');
+	});
+
 	var paisesContagiados = [];
 
 	var ColorLuminance = function (hex, lum) {
@@ -31,23 +37,20 @@ var enfermedad = new Enfermedad('nombre', Emitter);
 			}
 
 			return rgb;
-		}
+	}
 
 	var increasingRed = function(pais) {
 
-
-		color = pais['color'];
-		// console.log(color);
-		colorIncreased = ColorLuminance(color, -.01);
-		// console.log(colorIncreased);
-
- 		pais['color'] = colorIncreased;
  		var obj = {};
+		color = pais['color'];
+		colorIncreased = ColorLuminance(color, -.01);
+ 		pais['color'] = colorIncreased;
  		obj[pais._code] = colorIncreased;
 		map.series.regions[0].setValues(obj);
+	}
 
-		// console.log('exec');
-
+	var actualizarData = function(pais) {
+		$('#'+pais._code+'').replaceWith('<tr id='+pais._code+'><td>'+pais._code+'</td><td>'+pais._poblacionTotal+'</td><td>'+pais._poblacionSana+'</td><td>'+pais._poblacionInfectada+'</td></tr>')
 	}
 
 	$( function(){
@@ -97,15 +100,16 @@ var enfermedad = new Enfermedad('nombre', Emitter);
 				}
 			});
 
-			setInterval(() =>{
+			setInterval(() => {
 		  		if(paisesContagiados.length > 0)
 					paisesContagiados.map( (pais) => {
 						pais.calcularTasaContagio();
-						increasingRed(pais);
 						pais.infectarPaisVecino(paises, paisesContagiados);
-					});
-			}, 1000);
+						increasingRed(pais);
 
+						actualizarData(pais);
+					});
+			}, 500);
 		  
 		})
 	})
