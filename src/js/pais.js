@@ -41,6 +41,10 @@ class Pais{
 		return this._poblacionInfectada;
 	}
 
+	get indiceContagioVecino () {
+		return this._indiceContagioVecino;
+	}
+
 	get poblacionMuerta () {
 		return this._poblacionMuerta;
 	}
@@ -141,15 +145,17 @@ class Pais{
 	}
 
 	infectarPaisVecino(paises, paisesContagiados) {
+
 		let contagiado = 0;
-		if (this._poblacionInfectada >= this._indiceContagioVecino) {
-			for (var i = 0; i < this._vecinos.length; i++) {
+		if (this.poblacionInfectada > this.indiceContagioVecino) {
+			for (var i = 0; i < this._vecinos.length && contagiado == 0; i++) {
 				var paisInfectar = this._vecinos[i];
-				if (paisesContagiados.find((elem, index, arr) => elem._code == paisInfectar.code) !== undefined) {
+				if (paisesContagiados.find((elem, index, arr) => elem._code == paisInfectar.code) == undefined) {
 
 					var pais = paises.find((elem, index, arr) => elem._code == paisInfectar.code);
 
 					pais.contagiarPais(this._enfermedad);
+					paisesContagiados.push(pais);
 					contagiado = 1;
 
 				}
@@ -159,7 +165,7 @@ class Pais{
 		if (contagiado === 1) {
 			this._indiceContagioVecino += Math.floor((this._poblacionTotal * 0.1));
 		}
-		return;
+		return contagiado;
 	}
 
 }
