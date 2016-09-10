@@ -3,7 +3,7 @@
 
 class Enfermedad {
 
-	constructor(nombre, emitter) {
+	constructor(nombre, emitter, paises) {
 		// super();
 		this._nombre 		= nombre;
 		this._tasaTransmision = 0.01;
@@ -13,6 +13,7 @@ class Enfermedad {
 		this._habilidades 	= [];
 		this._afeccion 		= [];
 		this._emitter = emitter;
+		this._paises = paises;
 	}
 
 	get tasaTransmision() {
@@ -36,12 +37,17 @@ class Enfermedad {
 	get afeccion(){
 		return this._afeccion;
 	}
+	set tasaTransmision(tasa) {
+		this._tasaTransmision = tasa;
+	}
 
-	revisarTasaTransmision(totalContagiados, totalPoblacion) {
+	revisarTasaTransmision() {
 
-		let tasa =  (totalContagiados / totalPoblacion);
-		this._tasaTransmision =  this._tasaTransmision + tasa;
-		return this._tasaTransmision;
+		
+		
+		// let tasa =  (totalContagiados / totalPoblacion);
+		// this._tasaTransmision =  this._tasaTransmision + tasa;
+		// return this._tasaTransmision;
 
 	} 
 

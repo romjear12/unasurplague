@@ -51,9 +51,9 @@ class Pais{
 		this._tasaTransmision = tasa;
 	}
 
-	// set poblacionInfectada(cantidad) {
-	// 	this._poblacionInfectada = cantidad;
-	// }
+	set poblacionInfectada(cantidad) {
+		this._poblacionInfectada = cantidad;
+	}
 
 	/**
 	 * Empieza a contagiarse la enfermedad en este país
@@ -63,16 +63,59 @@ class Pais{
 	contagiarPais(enfermedad) {
 
 		this._poblacionInfectada = 1;
-		this._tasaTransmision = this.calcularTasaContagio();
 		this._enfermedad = enfermedad;
+		this._tasaTransmision = this.calcularTasaContagio();
+		this._poblacionSana = this._poblacionTotal - this._poblacionInfectada;
 
 		this._emitter.contagiado({code: this._code});
-		return ;
+		return {ok:'ok'};
 
 	}
 
+	/**
+	 * Calcula la población infectada en un dt
+	 * @return {[type]} [description]
+	 */
+	calcularPoblacionInfectadaDt() {
+
+		let indiceDesarrollo = (this._indiceDesarrollo / 100) * this._enfermedad.tasaTransmision;
+
+		let alfa = this._enfermedad.tasaTransmision - indiceDesarrollo;
+
+
+		// SIR 				
+		let N = this.poblacionTotal;
+		let I = this.poblacionInfectada;
+		let S = N - I;
+		let R = this.poblacionMuerta;
+
+		let infectados = ( alfa * ( I / N ) * S ) - R;
+
+		return infectados;
+
+	}
+
+	/**
+	 * Calcula y acumula la cantidad de contagiados
+	 * @return {[type]} [description]
+	 */
 	calcularTasaContagio() {
-		return (this._poblacionInfectada / this._poblacionTotal) * 10000;
+		let infectadosDt = this.calcularPoblacionInfectadaDt();
+		// console.log('tasa calcularTasaContagio() '+ tasa);
+
+		this._tasaTransmision = this._tasaTransmision + infectadosDt;
+		// console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
+
+		this._poblacionInfectada = this._poblacionInfectada + Math.floor(this._tasaTransmision);
+		// console.log('_poblacionInfectada calcularTasaContagio() '+ tasa);
+
+		// this._enfermedad.revisarTasaTransmision();
+
+		return this._poblacionInfectada;
+	}
+
+	infectarPaisVecino() {
+
 	}
 
 }
