@@ -2,13 +2,15 @@
 
 class Pais{
 
-	constructor(code, indiceDesarrollo, tipoPoblacion, poblacionTotal, emitter){
+	constructor(code, indiceDesarrollo, tipoPoblacion, poblacionTotal,vecinos, emitter){
 		// super();
 		this._code = code;
 		this._indiceDesarrollo = indiceDesarrollo;
 		this._tipoPoblacion 		= tipoPoblacion;
 		this._poblacionTotal 	= poblacionTotal;
 		this._poblacionSana 		= this._poblacionTotal;
+		this._indiceContagioVecino = Math.floor(this._poblacionTotal * 0.4);
+		this._vecinos = vecinos.sort((a,b) => b.peso - a.peso);
 		this._poblacionInfectada = 0;
 		this._poblacionMuerta 	= 0;
 		this._tasaTransmision = 0;
@@ -73,14 +75,37 @@ class Pais{
 	}
 
 	/**
+	 * Retorna la eficiencia de la enfermedad en el pais segun las
+	 * caracteristicas del pais y de la enfermedad
+	 * @return {eficiencia} 0-100
+	 */
+	eficienciaEnfermedad() {
+		var eficiencia = 0,
+			tipoPoblacion = this._tipoPoblacion[0],
+			transmision = this._tipoPoblacion[2],
+			habilidades = this._tipoPoblacion[1]
+		;
+
+		if (this._enfermedad._tipoPoblacion.includes(tipoPoblacion)) 
+			eficiencia += 5;
+		if (this._enfermedad._transmision.includes(transmision)) 
+			eficiencia += 5;
+		if (this._enfermedad._habilidades.includes(habilidades)) 
+			eficiencia += 5;
+
+		return eficiencia / 100;
+
+	}
+
+	/**
 	 * Calcula la población infectada en un dt
 	 * @return {[type]} [description]
 	 */
 	calcularPoblacionInfectadaDt() {
 
-		let indiceDesarrollo = (this._indiceDesarrollo / 100) * this._enfermedad.tasaTransmision;
+		let indiceDesarrollo = ( this._indiceDesarrollo / 100) * this._enfermedad.tasaTransmision;
 
-		let alfa = this._enfermedad.tasaTransmision - indiceDesarrollo;
+		let alfa = (this._enfermedad.tasaTransmision + this.eficienciaEnfermedad()) - indiceDesarrollo;
 
 
 		// SIR 				
@@ -106,7 +131,8 @@ class Pais{
 		this._tasaTransmision = this._tasaTransmision + infectadosDt;
 		// console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
 
-		this._poblacionInfectada = this._poblacionInfectada + Math.floor(this._tasaTransmision);
+		this._poblacionInfectada += Math.floor(this._tasaTransmision);
+		this._poblacionSana -= Math.floor(this._tasaTransmision);
 		// console.log('_poblacionInfectada calcularTasaContagio() '+ tasa);
 
 		// this._enfermedad.revisarTasaTransmision();
@@ -114,8 +140,26 @@ class Pais{
 		return this._poblacionInfectada;
 	}
 
-	infectarPaisVecino() {
+	infectarPaisVecino(paises, paisesContagiados) {
+		let contagiado = 0;
+		if (this._poblacionInfectada >= this._indiceContagioVecino) {
+			for (var i = 0; i < this._vecinos.length; i++) {
+				var paisInfectar = this._vecinos[i];
+				if (paisesContagiados.find((elem, index, arr) => elem._code == paisInfectar.code) !== undefined) {
 
+					var pais = paises.find((elem, index, arr) => elem._code == paisInfectar.code);
+
+					pais.contagiarPais(this._enfermedad);
+					contagiado = 1;
+
+				}
+			}
+		}
+
+		if (contagiado === 1) {
+			this._indiceContagioVecino += Math.floor((this._poblacionTotal * 0.1));
+		}
+		return;
 	}
 
 }
