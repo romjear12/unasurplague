@@ -76,10 +76,10 @@ class Enfermedad {
 		this._tasaTransmision += (sintoma.transmision / 100);
 		this._tasaMortalidad += (sintoma.mortalidad / 100);
 
-		// Hago saber que mi enfermedad ahora es mortal
 
 		this._emitter.nuevoSintoma(sintoma);
 
+		// Hago saber que mi enfermedad ahora es mortal
 		if (sintoma.mortalidad > 0) {
 			this._emitter.aumentoTasaMortalidad(this._tasaMortalidad);
 		}
