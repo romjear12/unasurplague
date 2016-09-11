@@ -3,10 +3,11 @@
 
 class Enfermedad {
 
-	constructor(nombre, emitter, paises) {
+	constructor(nombre,emitter, paises) {
 		// super();
 		this._nombre 		= nombre;
 		this._tasaTransmision = 0.01;
+		this._tasaMortalidad = 0;
 		// rural | urbano
 		this._tipoPoblacion = [];
 		this._sintomas 		= [];
@@ -18,6 +19,11 @@ class Enfermedad {
 		this._afeccion 		= [];
 		this._emitter = emitter;
 		this._paises = paises;
+
+		this._emitter.on('cura-completa', () => {
+			alert('cura-completa');
+		});
+
 	}
 
 	get tasaTransmision() {
@@ -56,6 +62,27 @@ class Enfermedad {
 	agregarTransmision(transmision) {
 		this._transmision.push(transmision);
 		return;
+	}
+
+	/**
+	 * Agrega síntoma a la enfermedad
+	 * @param  {Objeto} sintoma sintoma, transmision, mortalidad
+	 * @return {[type]}         [description]
+	 */
+	agregarSintoma(sintoma) {
+
+		this._sintomas.push(sintoma.sintoma);
+
+		this._tasaTransmision += (sintoma.transmision / 100);
+		this._tasaMortalidad += (sintoma.mortalidad / 100);
+
+		// Hago saber que mi enfermedad ahora es mortal
+
+		this._emitter.nuevoSintoma(sintoma);
+
+		if (sintoma.mortalidad > 0) {
+			this._emitter.aumentoTasaMortalidad(this._tasaMortalidad);
+		}
 	}
 
 	revisarTasaTransmision() {

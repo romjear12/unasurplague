@@ -1,15 +1,24 @@
 var Pais = require('../js/pais.js');
 var Enfermedad = require('../js/enfermedad.js');
 var MyEmitter = require('../js/MyEmitter.js');
+var Cura = require('../js/cura.js');
 var creacion = require('../js/creacionPaises.js');
 var Emitter = new MyEmitter();
 
 	var poblacionInfectada = 0;
 	var poblacionMuerta = 0;
+	var cura = new Cura(Emitter);
 	var enfermedad = new Enfermedad('nombre', Emitter);
 	enfermedad._emitter.on('contagiado', (pais) => {
 		alert(`${pais.code} se contagió`);
 	});
+
+	// Para agregar un nuevo sintoma
+	// enfermedad.agregarSintoma({sintoma:'nombre', transmision:0-100, mortalidad:0-100})
+	// 
+	// Para traer la informacion del banner inferior
+	// var actualizarInfo = require('../js/actualizarInfo.js');
+	// actualizarInfo(paisesContagiados, cura);
 
 	var paises = creacion(enfermedad, Emitter);
 
@@ -109,7 +118,7 @@ var Emitter = new MyEmitter();
 						increasingRed(pais);
 						actualizarData(pais);
 					});
-			}, 200);
+			}, 1000);
 		  
 		})
 	})

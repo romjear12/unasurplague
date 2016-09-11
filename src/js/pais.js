@@ -143,6 +143,7 @@ class Pais{
 		} else {
 			// Hago que la poblacion infectada sea toda la poblacion de pais
 			this._poblacionInfectada = this._poblacionTotal;
+			this._poblacionSana = 0;
 		}
 
 		// this._enfermedad.revisarTasaTransmision();
@@ -169,7 +170,7 @@ class Pais{
 		}
 
 		if (contagiado === 1) {
-			this._indiceContagioVecino += Math.floor((this._poblacionTotal * 0.1));
+			this._indiceContagioVecino += Math.floor((this._poblacionTotal * 0.2));
 		}
 		return contagiado;
 	}

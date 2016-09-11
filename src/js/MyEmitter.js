@@ -9,7 +9,18 @@ class MyEmitter extends EventEmitter {
 	contagiado(pais) {
 		this.emit('contagiado', pais);
 	}
-	
+
+	nuevoSintoma(sintoma) {
+		this.emit('nuevo-sintoma', sintoma);
+	}
+
+	aumentoTasaMortalidad(tasa) {
+		this.emit('aumento-tasa-mortalidad', tasa);
+	}
+
+	curaCompleta() {
+		this.emit('cura-completa');
+	}
 
 }
 
