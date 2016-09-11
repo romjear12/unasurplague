@@ -9,15 +9,16 @@ var Emitter = new MyEmitter();
 	var poblacionMuerta = 0;
 	var cura = new Cura(Emitter);
 	var enfermedad = new Enfermedad('nombre', Emitter);
+	
 	enfermedad._emitter.on('contagiado', (pais) => {
 		alert(`${pais.code} se contagió`);
 	});
 
 	// Para agregar un nuevo sintoma
-	// enfermedad.agregarSintoma({sintoma:'nombre', transmision:0-100, mortalidad:0-100})
+	//enfermedad.agregarSintoma({sintoma:'nombre', transmision:0-100, mortalidad:0-100})
 	// 
 	// Para traer la informacion del banner inferior
-	// var actualizarInfo = require('../js/actualizarInfo.js');
+	var actualizarInfo = require('../js/actualizacionInfo.js');
 	// actualizarInfo(paisesContagiados, cura);
 
 	var paises = creacion(enfermedad, Emitter);
@@ -61,6 +62,12 @@ var Emitter = new MyEmitter();
 
 	var actualizarData = function(pais) {
 		$('#'+pais._code+'').replaceWith('<tr id='+pais._code+'><td>'+pais._code+'</td><td>'+pais._poblacionTotal+'</td><td>'+pais._poblacionSana+'</td><td>'+pais._poblacionInfectada+'</td></tr>')
+
+		var data = actualizarInfo(paisesContagiados, cura);
+		//$('#puntos-adn').text(data.infectsa)
+		$('#infectados').text(data.infectados);
+		$('#muertos').text(data.muertos);
+		$('#cura').text(data.cura);
 	}
 
 	$( function(){
