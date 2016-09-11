@@ -11,8 +11,8 @@
 <body>
 	<header class="text-center">
 		<a class="indicators" href="#" data-toggle="modal" data-target="#modalSintomas">Sintomas</a>
-		<a class="indicators" href="#">Habilidades</a>
-		<a class="indicators" href="#">Transmisión</a>
+		<a class="indicators" href="#" data-toggle="modal" data-target="#modalHabilidades">Habilidades</a>
+		<a class="indicators" href="#" data-toggle="modal" data-target="#modalTransmision">Transmisión</a>
 	</header>
 	<div class="row">
 		<div style="margin-left: 3em; display: inline-block;">
@@ -34,18 +34,59 @@
 		</div>
 	</div>
 	<div id="tablero">
+		<h4>Enfermedad</h4>
 		<p class="indicators"><strong>Puntos ADN-> <span id="puntos-adn">0</span></strong></p>
 		<p class="indicators"><strong>Población infectada-> <span id="infectados">0</span></strong></p>
 		<p class="indicators"><strong>Muertos-> <span id="muertos">0</span></strong></p>
 		<p class="indicators"><strong>Progreso Cura-> <span id="cura">0</span></strong></p>
 	</div>
+	
 
+	<!-- Modal Sintomas -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="modalSintomas">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header text-center">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">Sintomas</h4>
+	      </div>
+	      <div class="modal-body">
+	        <div id="button-sintomas">
+	        	
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- Modal Transmisión -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalTransmision">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title">Sintomas</h4>
+	        <h4 class="modal-title text-center">Tranmisión</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>One fine body&hellip;</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+<!-- Modal Habilidades -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalHabilidades">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title text-center">Habilidades</h4>
 	      </div>
 	      <div class="modal-body">
 	        <p>One fine body&hellip;</p>

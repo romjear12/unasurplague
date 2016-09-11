@@ -3,23 +3,38 @@ var Enfermedad = require('../js/enfermedad.js');
 var MyEmitter = require('../js/MyEmitter.js');
 var Cura = require('../js/cura.js');
 var creacion = require('../js/creacionPaises.js');
+var sintoma = require('../js/sintomas.js');
+var actualizarInfo = require('../js/actualizacionInfo.js');
 var Emitter = new MyEmitter();
 
-	var poblacionInfectada = 0;
-	var poblacionMuerta = 0;
-	var cura = new Cura(Emitter);
-	var enfermedad = new Enfermedad('nombre', Emitter);
-	
+var cura = new Cura(Emitter);
+
+//crear enfermedad	
+var enfermedad = new Enfermedad($("#nombre").val(), Emitter);	
+
+
 	enfermedad._emitter.on('contagiado', (pais) => {
 		alert(`${pais.code} se contagió`);
 	});
 
-	// Para agregar un nuevo sintoma
-	//enfermedad.agregarSintoma({sintoma:'nombre', transmision:0-100, mortalidad:0-100})
-	// 
-	// Para traer la informacion del banner inferior
-	var actualizarInfo = require('../js/actualizacionInfo.js');
-	// actualizarInfo(paisesContagiados, cura);
+	//cargar sintomas
+	sintoma().map( (obj)=> {
+		$('#button-sintomas').append('<div class="show" id="'+obj.nombre+'"></div>');
+		$('#'+obj.nombre+'').append('<button type="button" onclick="agregarSintoma(this);" style="margin: 0.2em 1em; background-color: whitesmoke;" class="btn btn-default" id="'+obj.cod+'">'+obj.nombre+'</button>');
+		if(obj.evolucion){
+			obj.evolucion.map((evo) =>{
+				$('#'+obj.nombre+'').append('<button type="button" onclick="agregarSintoma(this);" style="margin: 0.2em 1em;" class="btn btn-default" id="'+evo.cod+'" disabled>'+evo.nombre+'</button>');
+			});
+		}
+	});
+
+	//agregar Sintoma
+	var agregarSintoma = function(obj){
+		var id= $(obj).attr("id");
+		var sint = sintoma().find( (sin) => sin.cod = id);
+		enfermedad.agregarSintoma(sint);
+		$(obj).css("background-color", "#F58E98");
+	}
 
 	var paises = creacion(enfermedad, Emitter);
 
@@ -69,6 +84,8 @@ var Emitter = new MyEmitter();
 		$('#muertos').text(data.muertos);
 		$('#cura').text(data.cura);
 	}
+
+
 
 	$( function(){
 		// $('#map').vectorMap({map: 'south_america_mill'});
