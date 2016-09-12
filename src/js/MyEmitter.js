@@ -22,6 +22,14 @@ class MyEmitter extends EventEmitter {
 		this.emit('cura-completa');
 	}
 
+	primeraMuerte(pais) {
+		this.emit('primera-muerte', pais);
+	}
+
+	paisDestruido(pais) {
+		this.emit('pais-destruido', pais);
+	}
+
 }
 
 module.exports = MyEmitter;

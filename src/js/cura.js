@@ -19,7 +19,7 @@ class Cura {
 		// enfermerdad
 		this._emitter.on('nuevo-sintoma', (sintoma) => {
 			// Si la cura ya empezó a desarrollarse
-			if (this._progreso > 0) {
+			if (this._progreso > 1) {
 
 				// Disminuyo el progreso tanto porciento segun sea 
 				// la fatalidad del nuevo síntoma

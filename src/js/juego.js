@@ -31,7 +31,7 @@ var enfermedad = new Enfermedad($("#nombre").val(), Emitter);
 	//agregar Sintoma
 	var agregarSintoma = function(obj){
 		var id= $(obj).attr("id");
-		var sint = sintoma().find( (sin) => sin.cod = id);
+		var sint = sintoma().find( (sin) => sin.cod === id);
 		enfermedad.agregarSintoma(sint);
 		$(obj).css("background-color", "#F58E98");
 	}
@@ -77,7 +77,10 @@ var enfermedad = new Enfermedad($("#nombre").val(), Emitter);
 
 	var actualizarData = function(pais) {
 		$('#'+pais._code+'').replaceWith('<tr id='+pais._code+'><td>'+pais._code+'</td><td>'+pais._poblacionTotal+'</td><td>'+pais._poblacionSana+'</td><td>'+pais._poblacionInfectada+'</td></tr>')
+		
+	}
 
+	var actualizacionInfo = function() {
 		var data = actualizarInfo(paisesContagiados, cura);
 		//$('#puntos-adn').text(data.infectsa)
 		$('#infectados').text(data.infectados);
@@ -136,12 +139,14 @@ var enfermedad = new Enfermedad($("#nombre").val(), Emitter);
 
 			setInterval(() => {
 		  		if(paisesContagiados.length > 0)
-					paisesContagiados.map( (pais) => {
+					paisesContagiados.forEach( (pais) => {
 						pais.calcularTasaContagio();
-						pais.infectarPaisVecino(paises, paisesContagiados);
+						// pais.infectarPaisVecino(paises, paisesContagiados);
 						increasingRed(pais);
 						actualizarData(pais);
 					});
+					// actualizacionInfo();
+
 			}, 1000);
 		  
 		})

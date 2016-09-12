@@ -17,10 +17,12 @@ class Enfermedad {
 		this._habilidades 	= [];
 
 		this._afeccion 		= [];
+		this._curaCompleta = false;
 		this._emitter = emitter;
 		this._paises = paises;
 
 		this._emitter.on('cura-completa', () => {
+			this._curaCompleta = true;
 			alert('cura-completa');
 		});
 
@@ -28,6 +30,9 @@ class Enfermedad {
 
 	get tasaTransmision() {
 		return this._tasaTransmision;
+	}
+	get tasaMortalidad() {
+		return this._tasaMortalidad;
 	}
 	get nombre(){
 		return this._nombre;
@@ -74,13 +79,14 @@ class Enfermedad {
 		this._sintomas.push(sintoma.sintoma);
 
 		this._tasaTransmision += (sintoma.transmision / 100);
-		this._tasaMortalidad += (sintoma.mortalidad / 100);
+		this._tasaMortalidad += (sintoma.muerte / 100);
 
+		alert(sintoma.muerte);
 
 		this._emitter.nuevoSintoma(sintoma);
 
 		// Hago saber que mi enfermedad ahora es mortal
-		if (sintoma.mortalidad > 0) {
+		if (sintoma.muerte > 0) {
 			this._emitter.aumentoTasaMortalidad(this._tasaMortalidad);
 		}
 	}

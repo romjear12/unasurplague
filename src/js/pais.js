@@ -14,6 +14,9 @@ class Pais{
 		this._poblacionInfectada = 0;
 		this._poblacionMuerta 	= 0;
 		this._tasaTransmision = 0;
+		this._tasaMortalidad = 0;
+		this._destruido = false;
+		this._infectado = false;
 		this._emitter = emitter;
 		this._enfermedad = {};
 	}
@@ -67,14 +70,16 @@ class Pais{
 	 * @return {[type]}            [description]
 	 */
 	contagiarPais(enfermedad) {
+		if (this._poblacionInfectada == 0) {
+			this._poblacionInfectada = 1;
+			this._infectado = true;
+			this._enfermedad = enfermedad;
+			this._tasaTransmision = this.calcularTasaContagio();
+			this._poblacionSana = this._poblacionTotal - this._poblacionInfectada;
 
-		this._poblacionInfectada = 1;
-		this._enfermedad = enfermedad;
-		this._tasaTransmision = this.calcularTasaContagio();
-		this._poblacionSana = this._poblacionTotal - this._poblacionInfectada;
-
-		this._emitter.contagiado({code: this._code});
-		return {ok:'ok'};
+			this._emitter.contagiado({code: this._code});
+			return {ok:'ok'};
+		}
 
 	}
 
@@ -113,10 +118,10 @@ class Pais{
 
 
 		// SIR 				
-		let N = this.poblacionTotal;
-		let I = this.poblacionInfectada;
+		let N = this._poblacionTotal;
+		let I = this._poblacionInfectada;
 		let S = N - I;
-		let R = this.poblacionMuerta;
+		let R = this._poblacionMuerta;
 
 		let infectados = ( alfa * ( I / N ) * S ) - R;
 
@@ -124,29 +129,79 @@ class Pais{
 
 	}
 
+	calcularPoblacionMuertaDt() {
+
+		// let indiceDesarrollo = ( this._indiceDesarrollo / 100) * this._enfermedad.tasaMortalidad;
+
+		let alfa = (this._enfermedad.tasaMortalidad);
+		// alert(alfa);
+
+		// SIR 				
+		let N = this.poblacionInfectada;
+		let I = this.poblacionMuerta;
+		let S = N - I;
+
+
+		let muertos = ( alfa * ( I / N ) * S );
+
+		// alert(`N: ${N}, I: ${I}, S: ${S}, muertos: ${muertos}`);
+		return muertos;
+
+	}
+
+	calcularMortalidad() {
+		if (this._poblacionMuerta > 0 && !this._destruido) {
+			if (this._infectado) {
+				let muertosDt = this.calcularPoblacionMuertaDt();
+				this._tasaMortalidad = this._tasaMortalidad + muertosDt;
+				this._poblacionMuerta = this._poblacionMuerta + Math.floor(this._tasaMortalidad);
+				this._poblacionInfectada = this._poblacionInfectada - this._poblacionMuerta;
+			}
+			if (this._poblacionMuerta >= this._poblacionTotal) {
+				this._destruido = true;
+				this._poblacionMuerta = this._poblacionTotal;
+				this._poblacionInfectada = 0;
+				this._emitter.paisDestruido(this._code);
+			}
+		}
+		
+	}
+
 	/**
 	 * Calcula y acumula la cantidad de contagiados
 	 * @return {[type]} [description]
 	 */
 	calcularTasaContagio() {
-		let infectadosDt = this.calcularPoblacionInfectadaDt();
-		//console.log('tasa calcularTasaContagio() ');
 		
-		// Verifico que no sigan infectandose mas personas que las que hay
-		// en total
-		if ((this.poblacionInfectada + infectadosDt) < this._poblacionTotal ) {
-			this._tasaTransmision = this._tasaTransmision + infectadosDt;
-			//console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
 
-			this._poblacionInfectada += Math.floor(this._tasaTransmision);
-			this._poblacionSana -= Math.floor(this._tasaTransmision);
-		} else {
-			// Hago que la poblacion infectada sea toda la poblacion de pais
-			this._poblacionInfectada = this._poblacionTotal;
-			this._poblacionSana = 0;
+		if (!this._enfermedad.curaCompleta) {
+			var infectadosDt = this.calcularPoblacionInfectadaDt();
+			//console.log('tasa calcularTasaContagio() ');
+			
+			// Verifico que no sigan infectandose mas personas que las que hay
+			// en total
+			if (this._poblacionSana > 0) {
+				// alert(`entro, resta: ${this._poblacionInfectada + infectadosDt}`);
+				this._tasaTransmision = this._tasaTransmision + infectadosDt;
+				//console.log('_tasaTransmision calcularTasaContagio() '+ tasa);
+
+				this._poblacionInfectada += Math.floor(this._tasaTransmision);
+				this._poblacionSana -= Math.floor(this._tasaTransmision);
+			} else {
+				// Hago que la poblacion infectada sea toda la poblacion de pais
+				this._poblacionInfectada = this._poblacionTotal;
+				this._poblacionSana = 0;
+			}
 		}
 
+		if (this._poblacionMuerta == 0 && this._enfermedad._tasaMortalidad > 0 && this._poblacionInfectada > 0) {
+			this._emitter.primeraMuerte(this._code);
+			this._poblacionMuerta = 1;
+			this._poblacionInfectada -= 1;
+		}	
+
 		// this._enfermedad.revisarTasaTransmision();
+		this.calcularMortalidad();
 
 		return this._poblacionInfectada;
 	}
