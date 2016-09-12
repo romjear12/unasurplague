@@ -141,11 +141,12 @@ var enfermedad = new Enfermedad($("#nombre").val(), Emitter);
 		  		if(paisesContagiados.length > 0)
 					paisesContagiados.forEach( (pais) => {
 						pais.calcularTasaContagio();
-						// pais.infectarPaisVecino(paises, paisesContagiados);
+						pais.infectarPaisVecino(paises, paisesContagiados);
 						increasingRed(pais);
 						actualizarData(pais);
 					});
-					// actualizacionInfo();
+					cura.aumentarProgreso();
+					actualizacionInfo();
 
 			}, 1000);
 		  

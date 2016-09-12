@@ -13,6 +13,7 @@ class Cura {
 
 		this._progreso = 1;
 		this._tasaIncremento = 0;
+		this._curaCompleta = false;
 		this._emitter = emitter;
 
 		// Escucha si se agregó un nuevo síntoma a la 
@@ -23,7 +24,7 @@ class Cura {
 
 				// Disminuyo el progreso tanto porciento segun sea 
 				// la fatalidad del nuevo síntoma
-				this._progreso -= this._progreso * (sintoma.mortalidad / 100);
+				this._progreso -= this._progreso - 15;
 
 			}
 			// alert('nuevo-sintoma');
@@ -46,14 +47,16 @@ class Cura {
 	 * @param  {Int} porciento Porcentaje de aumento de la Cura en base 100
 	 * @return {Int}           progreso
 	 */
-	aumentarProgreso(porciento) {
+	aumentarProgreso() {
 
-		this._progreso += this._progreso * this._tasaIncremento;
+		if (!this._curaCompleta) {
+			this._progreso = this._progreso + (this._progreso * this._tasaIncremento);
 
-		if (this._progreso == 100) {
-			this._emitter.curaCompleta();
-		}
-
+			if (this._progreso >= 100) {
+				this._emitter.curaCompleta();
+				this._curaCompleta = true;
+			}
+		}	
 		return this._progreso;
 	}
 }

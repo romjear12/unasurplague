@@ -4,7 +4,7 @@ const actualizarInfo = (paisesContagiados, cura) => {
 	var infectados = paisesContagiados.reduce((c, pais) => c + pais.poblacionInfectada, 0);
 	var muertos = paisesContagiados.reduce((c, pais) => c + pais.poblacionMuerta, 0);
 
-	var cura = cura.progreso;
+	var cura = cura.progreso.toFixed(2);
 
 	return {
 		infectados: infectados,
